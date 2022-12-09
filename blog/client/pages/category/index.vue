@@ -53,7 +53,7 @@
         </form>
       </div>
       <div class="col-md-12">
-        <b-table id="my-table" small :fields="fields" :items="categories">
+        <b-table striped hover id="my-table" small :fields="fields" :items="categories">
           <template #cell(actions)>
             <button class="btn btn-success btn-sm">
               <font-awesome-icon :icon="['fas', 'pen-to-square']" />

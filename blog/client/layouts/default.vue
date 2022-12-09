@@ -1,15 +1,20 @@
 <template>
   <div>
     <NavBar />
-    <Footer/>
     <Nuxt/>
+    <Footer/>
   </div>
 </template>
 <script>
 import NavBar from './NavBar.vue';
+import Footer from './Footer.vue';
 
 export default {
-   
-    components: { NavBar }
+    components: { NavBar,Footer },
+    watch: {
+      $route() {
+        location.reload();
+      },
+    },
 };
 </script>

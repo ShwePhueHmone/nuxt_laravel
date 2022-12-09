@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-md-4 mt-5 mb-3">
+      <div class="col-md-4 mt-5">
         <div class="card mb-4 shadow-sm">
           <img
             src="https://plus.unsplash.com/premium_photo-1661918785233-f8d5c8d0f03b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
             class="card-img-top" alt="post image" height="50%" />
           <div class="card-body">
-            <h5 class="card-title">
+            <h6 class="card-title">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
-            </h5>
+            </h6>
             <div class="row">
               <div class="col-md-6 mt-3">
                 <p class="ml-2 text-secondary">
@@ -56,11 +56,11 @@
             src="https://plus.unsplash.com/premium_photo-1661918785233-f8d5c8d0f03b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
             class="img-fluid" alt="post image" height="50%" />
           <div class="card-body">
-            <h5 class="card-title">
+            <h6 class="card-title">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
-            </h5>
+            </h6>
             <div class="row">
               <div class="col-md-6">
                 <p class="ml-2 text-secondary mt-3">
@@ -111,7 +111,7 @@
         </form>
         <div class="row">
           <div class="col-md-6 mb-2">
-            <h4>LATEST POSTS</h4>
+            <h5>LATEST POSTS</h5>
           </div>
         </div>
         <div class="row border-bottom">
@@ -429,15 +429,11 @@
         </li>
       </ul>
     </nav>
-    <!-- Footer -->
-    <footer class="container-fluid bg-4 text-center bg-dark">
-      <p class="text-white">
-        Copyright 2022 <a href="https://www.w3schools.com"></a>
-      </p>
-    </footer>
   </div>
 </template>
-  
+<style scoped>
+@import '../assets/css/main.css';
+</style>
 <script>
 export default {
   name: "Home",

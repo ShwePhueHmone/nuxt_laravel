@@ -4,9 +4,6 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    css: [
-      '~/assets/style/main.css'
-    ],
     title: "client",
     htmlAttrs: {
       lang: "en",
@@ -21,12 +18,12 @@ export default {
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "stylesheet",
-        href: "https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css",
+        href: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
       },
     ],
     script: [
       {
-        src: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
+        src: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js",
       },
     ],
   },

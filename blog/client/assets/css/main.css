@@ -1,0 +1,14 @@
+* {
+  font-family: "Karla", sans-serif;
+}
+
+table tbody tr {
+  padding: 10px 0px;
+}
+
+p {
+  font-size: 1rem;
+}
+h6 {
+  font-weight: bold;
+}
