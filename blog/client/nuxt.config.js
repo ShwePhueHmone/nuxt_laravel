@@ -4,6 +4,9 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
+    css: [
+      '~/assets/style/main.css'
+    ],
     title: "client",
     htmlAttrs: {
       lang: "en",
@@ -47,30 +50,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "@nuxtjs/auth-next","bootstrap-vue/nuxt"],
-
-  // auth: {
-  //   strategies: {
-  //     laravelSanctum: {
-  //       provider: "laravel/sanctum",
-  //       url: "http://127.0.0.1:8000",
-  //       endpoints: {
-  //         login: {
-  //           url: "/login",
-  //         },
-  //       },
-  //     },
-  //   },
-  // },
-
-  // axios: {
-  //   baseURL: "http://127.0.0.1:8000",
-  //   credentials: true,
-  // },
-
-  // router: {
-  //   middleware: ["auth"],
-  // },
+  modules: ["@nuxtjs/axios", "bootstrap-vue/nuxt"],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

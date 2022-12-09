@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -12,9 +14,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy('id', 'desc')->paginate(5);
+        $categories = Category::orderBy('id', 'desc')->get();
+
         return response()->json($categories);
     }
 
@@ -26,6 +29,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::all();
+
         return response()->json($categories);
     }
 
@@ -35,11 +39,12 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         $categories = Category::create([
             'name' => $request->name,
         ]);
+
         return response([
             "results" => "1",
             "message" => "Category created successfully",
@@ -55,14 +60,12 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+
         return response([
             "results" => "1",
             "message" => "Category Lists",
             "data" => $category,
         ]);
-        if ($category->isEmpty()) {
-            return response(['error' => 'Record not found'], 404);
-        }
     }
 
     /**
@@ -76,6 +79,7 @@ class CategoryController extends Controller
     {
         $category->name = $request->name;
         $category->save();
+
         return response([
             "category" => $category,
             "message" => "Category updated successfully",
@@ -88,9 +92,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         $category->delete();
+
         return response()->json(
             ["category" => $category,
                 "message" => 'Category deleted successfully'],

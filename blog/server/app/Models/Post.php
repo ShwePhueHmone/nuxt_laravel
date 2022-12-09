@@ -12,16 +12,12 @@ class Post extends Model
         'user_id',
         'image',
         'title',
-        'body',
+        'description',
     ];
-
-    // public function categories()
-    // {
-    //     return $this->belongsToMany(Category::class, 'categories_posts');
-    // }
 
     public function user()
     {
+        
         return $this->belongsTo(User::class);
     }
 }

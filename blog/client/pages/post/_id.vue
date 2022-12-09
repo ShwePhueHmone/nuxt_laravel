@@ -143,7 +143,7 @@
                         <h5>CATEGORIES</h5>
                         <div class="row mt-3 border-bottom">
                             <div class="col-md-6">
-                                <a href="../category" class="ml-2 text-secondary" >Technology</a>
+                                <a href="../category/_id" class="ml-2 text-secondary" >Technology</a>
                             </div>
                             <div class="col-md-6 mt-2 text-right">
                                 <p class="ml-4 text-secondary">10</p>
@@ -151,16 +151,7 @@
                         </div>
                         <div class="row border-bottom">
                             <div class="col-md-6 mt-2">
-                                <a href="../category" class="ml-2 text-secondary">Travel&Tour</a>
-                            </div>
-                            <div class="col-md-6 mt-2 text-right">
-                                <p class="ml-4 text-secondary">10</p>
-                            </div>
-                        </div>
-
-                        <div class="row border-bottom">
-                            <div class="col-md-6 mt-2">
-                                <a href="../category" class="ml-2 text-secondary">Restaurant</a>
+                                <a href="../category/_id" class="ml-2 text-secondary">Travel&Tour</a>
                             </div>
                             <div class="col-md-6 mt-2 text-right">
                                 <p class="ml-4 text-secondary">10</p>
@@ -169,7 +160,7 @@
 
                         <div class="row border-bottom">
                             <div class="col-md-6 mt-2">
-                                <a href="../category" class="ml-2 text-secondary">Property</a>
+                                <a href="../category/_id" class="ml-2 text-secondary">Restaurant</a>
                             </div>
                             <div class="col-md-6 mt-2 text-right">
                                 <p class="ml-4 text-secondary">10</p>
@@ -178,7 +169,16 @@
 
                         <div class="row border-bottom">
                             <div class="col-md-6 mt-2">
-                                <a href="../category" class="ml-2 text-secondary">Car Rental Services</a>
+                                <a href="../category/_id" class="ml-2 text-secondary">Property</a>
+                            </div>
+                            <div class="col-md-6 mt-2 text-right">
+                                <p class="ml-4 text-secondary">10</p>
+                            </div>
+                        </div>
+
+                        <div class="row border-bottom">
+                            <div class="col-md-6 mt-2">
+                                <a href="../category/_id" class="ml-2 text-secondary">Car Rental Services</a>
                             </div>
                             <div class="col-md-6 mt-2 text-right">
                                 <p class="ml-4 text-secondary">10</p>
