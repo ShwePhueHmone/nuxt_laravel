@@ -35,10 +35,10 @@ class CategoryRequest extends FormRequest
      */
     public function messages()
     {
+
         return [
             'name.required' => 'Name cannot be blank!',
-            'name.max' => 'Your name must not be more than 225 characters.',
-            'name.unique' => 'Name must be unique',
+            'name.max' => 'Name must not be more than 225 characters.',
         ];
     }
 }

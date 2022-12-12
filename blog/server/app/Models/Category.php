@@ -8,7 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
     ];
+
+    public function scopeFilter($query, $search)
+    {
+
+        return $query->when($search ?? false, function ($query, $search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        });
+    }
 }

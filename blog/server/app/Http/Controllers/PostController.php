@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -14,7 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy('id', 'DESC')->get();
+
+        return response()->json($posts);
     }
 
     /**
@@ -24,7 +27,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $posts = Post::all();
+
+        return response()->json($posts);
     }
 
     /**
@@ -35,7 +40,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->storeAs('public/images', $imageName);
+        $posts = Post::create([
+            'user_id' => $request->user_id,
+            'image' => $imageName,
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+        //$posts->categories()->sync($request->categories);
+        return response([
+            'result' => 1,
+            'message' => 'Posts Created successfully',
+            'data' => $posts,
+        ]);
     }
 
     /**

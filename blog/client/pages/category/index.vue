@@ -25,9 +25,9 @@
                     <label for="name" class="col-form-label">Name:</label>
                     <input class="form-control" type="text" name="name" v-model="category.name" id="name"
                       placeholder="Enter name" />
-                      <div class="text-danger" v-if="Error">{{ Error[0] }}</div>
+                    <div class="text-danger" v-if="Error">{{ Error[0] }}</div>
                   </div>
-                  
+
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">
                       <font-awesome-icon :icon="['fas', 'floppy-disk']" />
@@ -45,7 +45,7 @@
       <div class="col-md-6 mt-3">
         <form @submit.prevent="search()">
           <div class="input-group">
-            <input type="text" placeholder="search" class="form-control" v-model="keyword"/>
+            <input type="text" placeholder="search" class="form-control" v-model="keyword" />
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary mb-3 justify-content-end">
                 <font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
@@ -67,11 +67,11 @@
             </button>
           </template>
         </b-table>
-        <div class="overflow-auto">
-          <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="my-table">
-          </b-pagination>
-          <p class="mt-3">Current Page: {{ currentPage }}</p>
-        </div>
+        <p v-if="rows == 0 && keyword != ''" class="text-danger text-center">
+          No category here!
+        </p>
+        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" :current-page="currentPage"
+          aria-controls="my-table" v-if="rows > 5"></b-pagination>
       </div>
     </div>
   </div>
@@ -167,14 +167,14 @@ export default {
     },
     editForm(items) {
       this.isEditMode = true;
-      this.category = items; 
+      this.category = items;
     },
     closeModalBox() {
       var modalEL = document.getElementById('categoryModal');
       var modal = bootstrap.Modal.getInstance(modalEL)
       modal.hide();
     },
-    clear(){
+    clear() {
 
     },
     async destroy(category) {

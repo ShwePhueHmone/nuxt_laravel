@@ -35,7 +35,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form id="import-form">
+                <form id="form">
                   <div class="mb-3">
                     <label for="title" class="col-form-label">Title:</label>
                     <input
@@ -88,93 +88,24 @@
         </form>
       </div>
       <div class="col-md-12">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Date</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Dec 12,2022</td>
-              <td>
-                <button class="btn btn-success btn-sm" @click="edit">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                  Edit
-                </button>
-                <button class="btn btn-danger btn-sm">
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Dec 12,2022</td>
-              <td>
-                <button class="btn btn-success btn-sm">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                  Edit
-                </button>
-                <button class="btn btn-danger btn-sm">
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>dolor sit amet</td>
-              <td>Dec 12,2022</td>
-              <td>
-                <button class="btn btn-success btn-sm">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                  Edit
-                </button>
-                <button class="btn btn-danger btn-sm">
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Lorem ipsum</td>
-              <td>Dec 12,2022</td>
-              <td>
-                <button class="btn btn-success btn-sm">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                  Edit
-                </button>
-                <button class="btn btn-danger btn-sm">
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Larry</td>
-              <td>Dec 12,2022</td>
-              <td>
-                <button class="btn btn-success btn-sm">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                  Edit
-                </button>
-                <button class="btn btn-danger btn-sm">
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <b-table striped hover id="my-table" small :fields="fields" :items="categories">
+          <template #cell(actions)="{ item }">
+            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#postModal"
+              @click="editForm(item)">
+              <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+              Edit
+            </button>
+            <button class="btn btn-danger btn-sm" @click="destroy(item)">
+              <font-awesome-icon :icon="['fas', 'trash']" />
+              Delete
+            </button>
+          </template>
+        </b-table>
+        <div class="overflow-auto">
+          <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="my-table">
+          </b-pagination>
+          <p class="mt-3">Current Page: {{ currentPage }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -182,9 +113,33 @@
 
 <script>
 export default {
-  methods: {
-    create() {},
-    cancel() {},
+  head: {
+    title: "Post",
+  },
+  data() {
+    return {
+      perPage: 5,
+      currentPage: 1,
+      fields: [
+        "id",
+        { key: "id", label: "id" },
+        "image",
+        { key: "image", label: "image" },
+        "title",
+        { key: "title", label: "title" },
+        "description",
+        { key: "description", label: "description" },
+        "Actions",
+      ],
+      post: {
+        id: null,
+        image: "",
+        title: "",
+        description:"",
+      },
+      posts: {},
+      errors: null
+    };
   },
 };
 </script>

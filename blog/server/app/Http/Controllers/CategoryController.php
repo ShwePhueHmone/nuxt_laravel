@@ -10,20 +10,16 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display Listing of category.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        if ($request->search) {
 
-            return Category::where('name', 'like', '%' . $request->search . '%')
-                ->orderBy('id', 'DESC')->get();
-        } else {
+        return $categories = Category::filter(request('search'))
+            ->orderBy('id', 'DESC')->get();
 
-            return Category::orderBy('id', 'DESC')->get();
-        }
     }
 
     /**
@@ -33,15 +29,14 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
 
         return response()->json($categories);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created category in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CategoryRequest $request)
@@ -51,7 +46,6 @@ class CategoryController extends Controller
         ]);
 
         return response([
-            "results" => "1",
             "message" => "Category created successfully",
             "data" => $categories,
         ]);
@@ -65,26 +59,26 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        $category = Category::find($id);
 
         return response([
-            "results" => "1",
             "message" => "Category Lists",
             "data" => $category,
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Store updated category in database.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CategoryRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category = Category::find($id);
-        $category->name = $request->name;
-        $category->save();
+        $category->update([
+            'name' => $request->name,
+        ]);
 
         return response([
             "category" => $category,
