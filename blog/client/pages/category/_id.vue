@@ -12,13 +12,13 @@
             </h6>
             <div class="row">
               <div class="col-md-6">
-                <p class="ml-2 text-secondary">
+                <p class="ml-2 mt-3 mb-3 text-secondary">
                   <font-awesome-icon :icon="['fas', 'clock']" />
                   Dec 6 2022
                 </p>
               </div>
               <div class="col-md-6">
-                <p class="ml-2 text-secondary">
+                <p class="ml-2 mt-3 mb-3 text-secondary">
                   <font-awesome-icon :icon="['fas', 'user']" />Mg Mg
                 </p>
               </div>
@@ -84,13 +84,13 @@
             </h6>
             <div class="row">
               <div class="col-md-6">
-                <p class="ml-2 text-secondary">
+                <p class="ml-2 mt-3 mb-3 text-secondary">
                   <font-awesome-icon :icon="['fas', 'clock']" />
                   Dec 6 2022
                 </p>
               </div>
               <div class="col-md-6">
-                <p class="ml-2 text-secondary">
+                <p class="ml-2 mt-3 mb-3 text-secondary">
                   <font-awesome-icon :icon="['fas', 'user']" />Mg Mg
                 </p>
               </div>

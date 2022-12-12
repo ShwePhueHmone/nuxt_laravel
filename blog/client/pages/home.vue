@@ -33,7 +33,7 @@
                 </p>
               </div>
             </div>
-            <p class="card-text">
+            <p class="card-text text-truncate">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
@@ -82,7 +82,7 @@
                 </p>
               </div>
             </div>
-            <p class="card-text">
+            <p class="card-text text-truncate">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
@@ -191,7 +191,7 @@
               </div>
               <div class="col-md-6">
                 <p class="ml-2 text-secondary mt-3">
-                  <font-awesome-icon :icon="['fas', 'user']" />Mg Mg
+                  <font-awesome-icon :icon="['fas', 'user']" class="ml-2"/>Mg Mg
                 </p>
               </div>
             </div>
@@ -202,7 +202,7 @@
                 </p>
               </div>
             </div>
-            <p class="card-text">
+            <p class="card-text text-truncate">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
@@ -238,7 +238,8 @@
               </div>
               <div class="col-md-6">
                 <p class="ml-2 text-secondary mt-3">
-                  <font-awesome-icon :icon="['fas', 'user']" />Mg Mg
+                  <font-awesome-icon :icon="['fas', 'user']" />
+                  Mg Mg
                 </p>
               </div>
             </div>
@@ -249,7 +250,7 @@
                 </p>
               </div>
             </div>
-            <p class="card-text">
+            <p class="card-text text-truncate">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
@@ -346,7 +347,7 @@
                 </p>
               </div>
             </div>
-            <p class="card-text">
+            <p class="card-text text-truncate">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco
@@ -393,7 +394,7 @@
                 </p>
               </div>
             </div>
-            <p class="card-text">
+            <p class="card-text text-truncate">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco

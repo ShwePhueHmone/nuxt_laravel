@@ -16,9 +16,14 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::orderBy('id', 'desc')->get();
+        if ($request->search) {
 
-        return response()->json($categories);
+            return Category::where('name', 'like', '%' . $request->search . '%')
+                ->orderBy('id', 'DESC')->get();
+        } else {
+
+            return Category::orderBy('id', 'DESC')->get();
+        }
     }
 
     /**
@@ -75,8 +80,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+        $category = Category::find($id);
         $category->name = $request->name;
         $category->save();
 

@@ -50,5 +50,12 @@ export default {
   modules: ["@nuxtjs/axios", "bootstrap-vue/nuxt"],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    postcss: null,
+    loaders: {
+      vue: {
+        prettify: false,
+      },
+    },
+  },
 };

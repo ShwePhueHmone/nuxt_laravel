@@ -20,13 +20,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form id="import-form" @submit.prevent="create()">
+                <form id="form" @submit.prevent="saveOrUpdate">
                   <div class="mb-3">
                     <label for="name" class="col-form-label">Name:</label>
                     <input class="form-control" type="text" name="name" v-model="category.name" id="name"
                       placeholder="Enter name" />
+                      <div class="text-danger" v-if="Error">{{ Error[0] }}</div>
                   </div>
-                  <!-- <small class="text-danger mb-3" v-if="Error">{{ Error }}</small> -->
+                  
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">
                       <font-awesome-icon :icon="['fas', 'floppy-disk']" />
@@ -42,9 +43,9 @@
       </div>
 
       <div class="col-md-6 mt-3">
-        <form>
+        <form @submit.prevent="search()">
           <div class="input-group">
-            <input type="text" placeholder="search" class="form-control" />
+            <input type="text" placeholder="search" class="form-control" v-model="keyword"/>
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary mb-3 justify-content-end">
                 <font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
@@ -54,12 +55,13 @@
       </div>
       <div class="col-md-12">
         <b-table striped hover id="my-table" small :fields="fields" :items="categories">
-          <template #cell(actions)>
-            <button class="btn btn-success btn-sm">
+          <template #cell(actions)="{ item }">
+            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#categoryModal"
+              @click="editForm(item)">
               <font-awesome-icon :icon="['fas', 'pen-to-square']" />
               Edit
             </button>
-            <button class="btn btn-danger btn-sm" @click="destroy(data.item)">
+            <button class="btn btn-danger btn-sm" @click="destroy(item)">
               <font-awesome-icon :icon="['fas', 'trash']" />
               Delete
             </button>
@@ -73,10 +75,19 @@
       </div>
     </div>
   </div>
-
 </template>
-
 <script>
+import Swal from "sweetalert2";
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-right",
+  customClass: {
+    popup: "colored-toast",
+  },
+  showConfirmButton: false,
+  timer: 1500,
+  timerProgressBar: true,
+});
 export default {
   data() {
     return {
@@ -97,20 +108,29 @@ export default {
       },
       categories: [],
       Error: "",
-      //   errors: null,
-      //   keyword: "",
+      errors: null,
+      keyword: "",
     };
   },
   methods: {
+    rows() {
+      return this.categories.length;
+    },
+    search() {
+      this.getCategories();
+    },
     async getCategories() {
       await this.$axios
-        .$get("http://127.0.0.1:8000/api/category")
+        .$get("http://127.0.0.1:8000/api/category?search=" + this.keyword)
         .then((res) => {
           this.categories = res;
         })
         .catch((err) => {
           console.error(err);
         });
+    },
+    saveOrUpdate() {
+      this.isEditMode ? this.update() : this.create();
     },
     async create() {
       this.isEditMode = false;
@@ -119,21 +139,58 @@ export default {
         .then(async (res) => {
           this.categories.unshift(res.data);
           this.category.name = "";
+          this.closeModalBox()
+          form.reset()
+          Toast.fire({
+            icon: "success",
+            title: "Created Successfully!",
+          });
         })
         .catch((error) => {
-          this.Error = error.response.data.message;
+          this.Error = error.response.data.errors.name;
         });
     },
-  },
-  async destroy(category) {
-    if (confirm("Are you sure you want to delete?"))
+    async update() {
       await this.$axios
-        .delete(`http://127.0.0.1:8000/api/category/${category.id}`)
-        .then(async () => {
-          this.categories = this.categories.filter((item) => {
-            return item.id !== category.id;
+        .$put(`http://127.0.0.1:8000/api/category/${this.category.id}`, this.category)
+        .then(async (res) => {
+          this.closeModalBox()
+          form.reset()
+          Toast.fire({
+            icon: "success",
+            title: "Updated Successfully!",
           });
+        })
+        .catch((error) => {
+          this.Error = error.response.data.errors.name;
         });
+    },
+    editForm(items) {
+      this.isEditMode = true;
+      this.category = items; 
+    },
+    closeModalBox() {
+      var modalEL = document.getElementById('categoryModal');
+      var modal = bootstrap.Modal.getInstance(modalEL)
+      modal.hide();
+    },
+    clear(){
+
+    },
+    async destroy(category) {
+      if (confirm("Are you sure you want to delete?"))
+        await this.$axios
+          .delete(`http://127.0.0.1:8000/api/category/${category.id}`)
+          .then(async () => {
+            this.categories = this.categories.filter((item) => {
+              return item.id !== category.id;
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Deleted Successfully!",
+            });
+          });
+    }
   },
   async fetch() {
     this.categories = await fetch("http://127.0.0.1:8000/api/category").then((res) =>
@@ -145,6 +202,5 @@ export default {
       return this.categories.length;
     },
   },
-
 }
 </script>
