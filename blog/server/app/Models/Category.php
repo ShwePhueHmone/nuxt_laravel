@@ -13,6 +13,15 @@ class Category extends Model
         'name',
     ];
 
+    /**
+     * The post that belong to the categories.
+     */
+    public function posts()
+    {
+
+        return $this->belongsToMany(Post::class, 'category_posts');
+    }
+
     public function scopeFilter($query, $search)
     {
 

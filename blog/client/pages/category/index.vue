@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-
+      <!--Search-->
       <div class="col-md-6 mt-3">
         <form @submit.prevent="search()">
           <div class="input-group">
@@ -54,7 +54,7 @@
         </form>
       </div>
       <div class="col-md-12">
-        <b-table striped hover id="my-table" small :fields="fields" :items="categories">
+        <b-table striped hover id="my-table" small :fields="fields" :items="categories" :per-page="perPage" :current-page="currentPage">
           <template #cell(actions)="{ item }">
             <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#categoryModal"
               @click="editForm(item)">
@@ -94,9 +94,7 @@ export default {
       perPage: 5,
       currentPage: 1,
       fields: [
-        "id",
-        { key: "id", label: "id" },
-        "name",
+        { key: "id", label: "ID" },
         { key: "name", label: "name" },
         { key: "created_at", label: "Date" },
         "Actions",
@@ -186,7 +184,7 @@ export default {
               return item.id !== category.id;
             });
             Toast.fire({
-              icon: "success",
+              icon: "warning",
               title: "Deleted Successfully!",
             });
           });

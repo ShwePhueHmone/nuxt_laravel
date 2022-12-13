@@ -1,145 +1,160 @@
 <template>
   <div class="container">
     <h5 class="mt-3">Post Lists</h5>
+    <div class="row d-flex justify-content-start mt-3">
+      <div class="col-9">
+        <NuxtLink to="../post/create">
+          <button class="btn btn-sm btn-primary">
+            Create <font-awesome-icon :icon="['fas', 'square-plus']" />
+          </button>
+        </NuxtLink>
+      </div>
+      <div class="col-3 d-flex justify-content-start">
+        <div class="input-group input-group-sm mb-3">
+          <input type="text" class="form-control" v-model="keyword" placeholder="Search" @keyup.enter="search()" />
+          <button class="input-group-text bg-primary text-white" @click="search()">
+            <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="row">
-      <div class="col-md-6">
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#postModal"
-        >
-          Create
-          <font-awesome-icon :icon="['fas', 'square-plus']" />
-        </button>
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="postModal"
-          tabindex="-1"
-          aria-labelledby="postModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="postModalLabel">
-                  {{ !isEditMode ? "Create Post" : "Edit Post" }}
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <form id="form">
-                  <div class="mb-3">
-                    <label for="title" class="col-form-label">Title:</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="tilte"
-                      id="title"
-                      placeholder="Enter title"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="file" class="col-form-label">Image:</label>
-                    <input class="form-control" type="file" name="file" id="file" />
-                  </div>
-                  <div class="mb-3">
-                    <label for="description" class="col-form-label">Description:</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="description"
-                      id="description"
-                      placeholder="Enter description"
-                    />
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary">
-                  <font-awesome-icon :icon="['fas', 'floppy-disk']" />
-                  Save
-                </button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 mt-3">
-        <form>
-          <div class="input-group">
-            <input type="text" placeholder="search" class="form-control" />
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-primary mb-3 justify-content-end">
-                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="col-md-12">
-        <b-table striped hover id="my-table" small :fields="fields" :items="categories">
-          <template #cell(actions)="{ item }">
-            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#postModal"
-              @click="editForm(item)">
-              <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-              Edit
+      <b-table striped id="my-table" :items="posts" :per-page="perPage" :current-page="currentPage" :fields="fields"
+        :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" class="mb-5">
+        <template #cell(image)="data">
+          <img :src="`http://127.0.0.1:8000/storage/img/posts/${data.item.image}`" class="rounded img-fluid post-img"
+            alt="post image" />
+        </template>
+        <template #cell(actions)="data">
+          <NuxtLink :to="`../post/edit/${data.item.id}`">
+            <button class="btn btn-sm btn-success my-2">
+              <font-awesome-icon :icon="['fas', 'pen-to-square']" /> Edit
             </button>
-            <button class="btn btn-danger btn-sm" @click="destroy(item)">
-              <font-awesome-icon :icon="['fas', 'trash']" />
-              Delete
-            </button>
-          </template>
-        </b-table>
-        <div class="overflow-auto">
-          <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="my-table">
-          </b-pagination>
-          <p class="mt-3">Current Page: {{ currentPage }}</p>
-        </div>
-      </div>
+          </NuxtLink>
+          <button class="btn btn-sm btn-danger my-2" @click="deletePost(data.item.id)">
+            <font-awesome-icon :icon="['fas', 'trash']" /> Delete
+          </button>
+        </template>
+      </b-table>
+      <p v-if="rows == 0 && keyword != ''" class="text-danger text-center">
+        No post here!
+      </p>
+      <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" :current-page="currentPage"
+        first-text="First" prev-text="Prev" next-text="Next" last-text="Last" v-if="rows > 5"></b-pagination>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-right",
+  customClass: {
+    popup: "colored-toast",
+  },
+  showConfirmButton: false,
+  timer: 1500,
+  timerProgressBar: true,
+});
 export default {
   head: {
     title: "Post",
   },
   data() {
     return {
-      perPage: 5,
-      currentPage: 1,
+      posts: [],
+      keyword: "",
       fields: [
-        "id",
-        { key: "id", label: "id" },
-        "image",
-        { key: "image", label: "image" },
-        "title",
-        { key: "title", label: "title" },
-        "description",
-        { key: "description", label: "description" },
-        "Actions",
+        { key: "id", label: "ID" },
+        { key: "image", label: "Image" },
+        // { key: "categories", label: "Categories" },
+        {
+          key: "title",
+          label: "Title",
+          thStyle: { width: "20%" },
+          tdClass: "semibolder",
+        },
+        { key: "description", label: "Description" },
+        { key: "actions", label: "Actions", thStyle: { width: "20%" } },
       ],
-      post: {
-        id: null,
-        image: "",
-        title: "",
-        description:"",
-      },
-      posts: {},
-      errors: null
+      sortBy: "id",
+      sortDesc: true,
+      currentPage: 1,
+      perPage: 5,
+      file: null,
     };
+  },
+  mounted() {
+    this.getAllPosts();
+  },
+  methods: {
+    async getAllPosts() {
+      await this.$axios
+        .$get("http://127.0.0.1:8000/api/posts?search=" + this.keyword)
+        .then((res) => {
+          this.posts = res;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    deletePost(id) {
+      if (confirm("Are you sure to delete?")) {
+        this.$axios
+          .$delete(`http://127.0.0.1:8000/api/posts/${id}`)
+          .then((res) => {
+            this.posts = this.posts.filter((item) => {
+              return item.id !== id;
+            });
+            Toast.fire({
+              icon: "warning",
+              title: "Deleted Successfully!",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    search() {
+      this.getAllPosts();
+    },
+    // clearErrMsg() {
+    //   this.errors = null;
+    //   let form = document.getElementById("import-form");
+    //   form.reset();
+    // },
+  },
+  computed: {
+    rows() {
+      return this.posts.length;
+    },
   },
 };
 </script>
+
+<style>
+.post {
+  max-height: 200px;
+}
+
+.post-body {
+  width: 200px;
+  height: 150px;
+  white-space: wrap;
+  text-overflow: ellipsis;
+}
+
+.post-img {
+  max-height: 140px;
+  height: 140px;
+  width: 180px;
+  min-width: 180px;
+}
+
+.semibolder {
+  font-weight: 600;
+}
+</style>

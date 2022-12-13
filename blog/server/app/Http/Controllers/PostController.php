@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
+use App\Models\CategoryPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of posts.
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,19 +24,18 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new post.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $posts = Post::all();
 
         return response()->json($posts);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created posts in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -41,18 +43,17 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $imageName = time() . '.' . $request->image->extension();
-        $request->image->storeAs('public/images', $imageName);
-        $posts = Post::create([
-            'user_id' => $request->user_id,
+        // Storage Folder
+        $request->image->move(storage_path('app/public/img/posts'), $imageName);
+        $post = Post::create([
             'image' => $imageName,
             'title' => $request->title,
-            'body' => $request->body,
+            'description' => $request->description,
         ]);
-        //$posts->categories()->sync($request->categories);
+        $post->categories()->sync($request->categories);
         return response([
-            'result' => 1,
-            'message' => 'Posts Created successfully',
-            'data' => $posts,
+            'message' => 'A post created successsfully',
+            'data' => $post,
         ]);
     }
 
@@ -64,30 +65,43 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $posts = Post::find($id);
+        $categories = CategoryPost::where('post_id', $id)->pluck('category_id');
+
+        return response()->json([
+            'posts' => $posts,
+            'categories' => $categories,
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Store updated post in database.
      *
+     * @param  \Illuminate\Http\PostRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function update(Request $request, Post $post)
     {
-        //
-    }
+        if ($request->file('image')) {
+            if (File::exists(storage_path('app/public/img/posts/') . $post->image)) {
+                File::delete(storage_path('app/public/img/posts/') . $post->image);
+            }
+            $imageName = time() . '.' . $request->file('image')->extension();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+            // Storage Folder
+            $request->image->move(storage_path('app/public/img/posts'), $imageName);
+            $post->image = $imageName;
+        }
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->categories()->sync($request->categories);
+        $post->save();
+
+        return response([
+            'message' => 'Post Updated',
+            'data' => $post,
+        ]);
     }
 
     /**
@@ -96,8 +110,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return response()->json(['message' => 'Post has been deleted successfully'], 200);
     }
 }

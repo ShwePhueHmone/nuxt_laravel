@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,6 @@ Route::get('/user', function (Request $request) {
 });
 
 Route::resource('category', CategoryController::class);
+
+Route::post('posts/edit/{post}', [PostController::class, 'update']);
+Route::resource('posts', PostController::class);
