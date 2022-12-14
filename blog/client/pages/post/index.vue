@@ -2,20 +2,23 @@
   <div class="container">
     <h5 class="mt-3">Post Lists</h5>
     <div class="row d-flex justify-content-start mt-3">
-      <div class="col-9">
+      <div class="col-md-6 mt-3">
         <NuxtLink to="../post/create">
           <button class="btn btn-sm btn-primary">
             Create <font-awesome-icon :icon="['fas', 'square-plus']" />
           </button>
         </NuxtLink>
       </div>
-      <div class="col-3 d-flex justify-content-start">
-        <div class="input-group input-group-sm mb-3">
-          <input type="text" class="form-control" v-model="keyword" placeholder="Search" @keyup.enter="search()" />
-          <button class="input-group-text bg-primary text-white" @click="search()">
-            <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-          </button>
-        </div>
+      <div class="col-md-6 mt-3">
+        <form @submit.prevent="search()">
+          <div class="input-group">
+            <input type="text" placeholder="search" class="form-control" v-model="keyword" />
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-primary mb-3 justify-content-end">
+                <font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <div class="row">
@@ -91,7 +94,7 @@ export default {
   methods: {
     async getAllPosts() {
       await this.$axios
-        .$get("http://127.0.0.1:8000/api/posts?search=" + this.keyword)
+        .$get("api/posts?search=" + this.keyword)
         .then((res) => {
           this.posts = res;
         })
@@ -102,7 +105,7 @@ export default {
     deletePost(id) {
       if (confirm("Are you sure to delete?")) {
         this.$axios
-          .$delete(`http://127.0.0.1:8000/api/posts/${id}`)
+          .$delete(`api/posts/${id}`)
           .then((res) => {
             this.posts = this.posts.filter((item) => {
               return item.id !== id;
@@ -120,11 +123,6 @@ export default {
     search() {
       this.getAllPosts();
     },
-    // clearErrMsg() {
-    //   this.errors = null;
-    //   let form = document.getElementById("import-form");
-    //   form.reset();
-    // },
   },
   computed: {
     rows() {

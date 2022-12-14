@@ -45,7 +45,9 @@ export default {
       brands: true,
     },
   },
-
+  axios: {
+    baseURL: "http://localhost:8000/",
+  },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ["@nuxtjs/axios", "bootstrap-vue/nuxt"],
 

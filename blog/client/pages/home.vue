@@ -27,10 +27,11 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <p class="ml-2 text-secondary">
+                <!-- <p class="ml-2 text-secondary">
                   <font-awesome-icon :icon="['fas', 'folder']" />
                   Technology
-                </p>
+                </p> -->
+                <p v-show="$fetchState.pending">Loading...</p>
               </div>
             </div>
             <p class="card-text text-truncate">
@@ -436,8 +437,10 @@
 @import '../assets/css/main.css';
 </style>
 <script>
+import axios from 'axios'
 export default {
   name: "Home",
+  
 };
 </script>
   

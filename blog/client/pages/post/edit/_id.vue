@@ -89,7 +89,7 @@ export default {
     methods: {
         async getAllPost() {
             await this.$axios
-                .$get("http://127.0.0.1:8000/api/posts/" + this.$route.params.id)
+                .$get("api/posts/" + this.$route.params.id)
                 .then((res) => {
                     this.post = res.posts;
                     this.post.categories = res.categories;
@@ -99,7 +99,7 @@ export default {
         
         async getAllCategories() {
             await this.$axios
-                .$get("http://127.0.0.1:8000/api/categories")
+                .$get("api/categories")
                 .then((res) => {
                     this.categories = res;
                 })
@@ -119,7 +119,7 @@ export default {
         async edit() {
             let form = new FormData(document.getElementById("form"));
             await this.$axios
-                .$post(`http://127.0.0.1:8000/api/posts/edit/${this.post.id}`, form)
+                .$post(`api/posts/edit/${this.post.id}`, form)
                 .then((res) => {
                     Toast.fire({
                         icon: "success",

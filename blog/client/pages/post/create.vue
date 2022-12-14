@@ -3,7 +3,7 @@
       <div class="card">
         <h4 class="card-header text-info">Create Post</h4>
         <div class="card-body">
-          <form method="POST" @submit.prevent="store()">
+          <form method="POST" @submit.prevent="store()" id="categoryForm">
             <div class="select-box">
               Select Category:
               <select v-model="post.category" name="category[]" multiple class="form-select mt-2" aria-label="Default select example">
@@ -13,7 +13,7 @@
               </select>
             </div>
             <img  id="frame" alt="post image" width="100px" height="100px" class="mt-2"/><br>
-            Image:
+            Choose Image:
             <b-form-file v-model="post.image" id="img" name="images" @change="preview" enctype="multipart/form-data" class="mt-3" plain>
             </b-form-file>
             <div class="text-danger" v-if="Error">*{{ Error.image[0] }}</div>
@@ -33,7 +33,7 @@
               Save
               <font-awesome-icon :icon="['fas', 'floppy-disk']" />
             </button>
-            <b-button variant="danger" href="../post">
+            <b-button variant="danger" href="../post" @click="clearErrMessage">
               Cancel
               <font-awesome-icon :icon="['fas', 'xmark']" />
             </b-button>
@@ -67,7 +67,7 @@
     methods: {
       async getCategories() {
         await this.$axios
-          .$get("http://127.0.0.1:8000/api/category")
+          .$get("api/category")
           .then((res) => {
             this.categories = res;
           })
@@ -86,7 +86,7 @@
         formData.append("title", this.post.title);
         formData.append("description", this.post.description);
         this.$axios
-          .post("http://127.0.0.1:8000/api/posts", formData)
+          .post("api/posts", formData)
           .then((response) => {
             this.post = "";
             this.$router.push({
@@ -96,6 +96,12 @@
           .catch((error) => {
             this.Error = error.response.data.errors;
           });
+      },
+      clearErrMessage(){
+      this.errors = null;
+      let form = document.getElementById("categoryForm");
+      form.reset();
+  
       },
     },
   };

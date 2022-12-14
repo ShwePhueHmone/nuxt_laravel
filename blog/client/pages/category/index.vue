@@ -95,7 +95,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "id", label: "ID" },
-        { key: "name", label: "name" },
+        { key: "name", label: "Name" },
         { key: "created_at", label: "Date" },
         "Actions",
       ],
@@ -119,7 +119,7 @@ export default {
     },
     async getCategories() {
       await this.$axios
-        .$get("http://127.0.0.1:8000/api/category?search=" + this.keyword)
+        .$get("/api/category?search=" + this.keyword)
         .then((res) => {
           this.categories = res;
         })
@@ -133,7 +133,7 @@ export default {
     async create() {
       this.isEditMode = false;
       await this.$axios
-        .$post("http://127.0.0.1:8000/api/category", this.category)
+        .$post("/api/category", this.category)
         .then(async (res) => {
           this.categories.unshift(res.data);
           this.category.name = "";
@@ -150,7 +150,7 @@ export default {
     },
     async update() {
       await this.$axios
-        .$put(`http://127.0.0.1:8000/api/category/${this.category.id}`, this.category)
+        .$put(`api/category/${this.category.id}`, this.category)
         .then(async (res) => {
           this.closeModalBox()
           form.reset()
@@ -178,7 +178,7 @@ export default {
     async destroy(category) {
       if (confirm("Are you sure you want to delete?"))
         await this.$axios
-          .delete(`http://127.0.0.1:8000/api/category/${category.id}`)
+          .delete(`api/category/${category.id}`)
           .then(async () => {
             this.categories = this.categories.filter((item) => {
               return item.id !== category.id;
