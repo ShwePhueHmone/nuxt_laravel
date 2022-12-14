@@ -96,6 +96,7 @@ export default {
       await this.$axios
         .$get("api/posts?search=" + this.keyword)
         .then((res) => {
+          console.log(res?.categories);
           this.posts = res;
         })
         .catch((err) => {
@@ -132,26 +133,6 @@ export default {
 };
 </script>
 
-<style>
-.post {
-  max-height: 200px;
-}
-
-.post-body {
-  width: 200px;
-  height: 150px;
-  white-space: wrap;
-  text-overflow: ellipsis;
-}
-
-.post-img {
-  max-height: 140px;
-  height: 140px;
-  width: 180px;
-  min-width: 180px;
-}
-
-.semibolder {
-  font-weight: 600;
-}
-</style>
+<style scoped>
+@import '../../assets/css/main.css';
+</style>>

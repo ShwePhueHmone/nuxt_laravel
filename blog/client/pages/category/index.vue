@@ -54,7 +54,8 @@
         </form>
       </div>
       <div class="col-md-12">
-        <b-table striped hover id="my-table" small :fields="fields" :items="categories" :per-page="perPage" :current-page="currentPage">
+        <b-table striped hover id="my-table" small :fields="fields" :items="categories" :per-page="perPage"
+          :current-page="currentPage">
           <template #cell(actions)="{ item }">
             <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#categoryModal"
               @click="editForm(item)">
@@ -71,7 +72,8 @@
           No category here!
         </p>
         <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" :current-page="currentPage"
-          aria-controls="my-table" v-if="rows > 5"></b-pagination>
+          aria-controls="my-table" v-if="rows > 5">
+        </b-pagination>
       </div>
     </div>
   </div>
@@ -133,7 +135,7 @@ export default {
     async create() {
       this.isEditMode = false;
       await this.$axios
-        .$post("/api/category", this.category)
+        .$post("/api/category/create", this.category)
         .then(async (res) => {
           this.categories.unshift(res.data);
           this.category.name = "";
@@ -150,7 +152,7 @@ export default {
     },
     async update() {
       await this.$axios
-        .$put(`api/category/${this.category.id}`, this.category)
+        .$put(`api/category/update/${this.category.id}`, this.category)
         .then(async (res) => {
           this.closeModalBox()
           form.reset()
