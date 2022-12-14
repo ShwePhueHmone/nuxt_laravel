@@ -36,9 +36,9 @@
           </button>
         </template>
       </b-table>
-      <p v-if="rows == 0 && keyword != ''" class="text-danger text-center">
+      <small v-if="rows == 0 && keyword != ''" class="text-danger text-center">
         No post here!
-      </p>
+      </small>
       <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" :current-page="currentPage"
         first-text="First" prev-text="Prev" next-text="Next" last-text="Last" v-if="rows > 5"></b-pagination>
     </div>
@@ -69,7 +69,7 @@ export default {
       fields: [
         { key: "id", label: "ID" },
         { key: "image", label: "Image" },
-        // { key: "categories", label: "Categories" },
+        { key: "categories", label: "Categories" },
         {
           key: "title",
           label: "Title",
@@ -83,7 +83,6 @@ export default {
       sortDesc: true,
       currentPage: 1,
       perPage: 5,
-      file: null,
     };
   },
   mounted() {

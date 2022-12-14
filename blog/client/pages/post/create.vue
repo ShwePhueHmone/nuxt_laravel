@@ -45,7 +45,7 @@
   </template>
   <script>
   export default {
-    name: "postdetails",
+    name: "Post",
     data() {
       return {
         post: {

@@ -18,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'DESC')->get();
+        $posts = Post::with('categories')->orderBy('id', 'DESC')->get();
 
         return response()->json($posts);
     }
@@ -81,7 +81,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         if ($request->file('image')) {
             if (File::exists(storage_path('app/public/img/posts/') . $post->image)) {
@@ -113,6 +113,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
+
         return response()->json(['message' => 'Post has been deleted successfully'], 200);
     }
 }
