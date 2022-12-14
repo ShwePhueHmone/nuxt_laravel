@@ -20,7 +20,20 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('category', CategoryController::class);
+/**
+ * Category Routes
+ */
+Route::get('/category', [CategoryController::class, 'index']);
+Route::post('/category/create', [CategoryController::class, 'store']);
+Route::get('/category/show/{id}', [CategoryController::class, 'show']);
+Route::put('/category/update/{category}', [CategoryController::class, 'update']);
+Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
 
-Route::post('posts/edit/{post}', [PostController::class, 'update']);
-Route::resource('posts', PostController::class);
+/**
+ * Posts Routes
+ */
+Route::get('/posts', [PostController::class, 'index']);
+Route::post('/posts/create', [PostController::class, 'store']);
+Route::get('/posts/show/{id}', [PostController::class, 'show']);
+Route::post('posts/edit/{id}', [PostController::class, 'update']);
+Route::delete('/posts/{post}', [PostController::class, 'destroy']);
