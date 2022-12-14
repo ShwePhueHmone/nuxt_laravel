@@ -26,4 +26,12 @@ class Post extends Model
 
         return $this->belongsToMany(Category::class, 'category_posts');
     }
+
+    public function scopeFilter($query, $search)
+    {
+
+        return $query->when($search ?? false, function ($query, $search) {
+            $query->where('title', 'LIKE', '%' . $search . '%');
+        });
+    }
 }
