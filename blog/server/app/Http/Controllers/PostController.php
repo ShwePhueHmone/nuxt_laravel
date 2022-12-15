@@ -32,7 +32,7 @@ class PostController extends Controller
      */
     public function create()
     {
-
+        $posts = POST::all();
         return response()->json($posts);
     }
 
@@ -42,7 +42,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         $imageName = time() . '.' . $request->image->extension();
         // Storage Folder

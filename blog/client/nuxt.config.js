@@ -49,7 +49,7 @@ export default {
     baseURL: "http://localhost:8000/",
   },
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "bootstrap-vue/nuxt"],
+  modules: ["@nuxtjs/axios", "@nuxtjs/auth-next", "bootstrap-vue/nuxt"],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

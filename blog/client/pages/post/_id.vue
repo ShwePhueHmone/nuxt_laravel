@@ -1,22 +1,17 @@
 <template>
     <div class="container">
         <div class="row mt-5">
-            <div class="col-md-8">
-                <div class="card mb-4 shadow-sm">
-                    <img src="https://plus.unsplash.com/premium_photo-1661918785233-f8d5c8d0f03b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
-                        class="img-fluid" alt="post image" height="50%">
+            <div class="col-md-8" >
+                <div class="card mb-4 shadow-sm" v-for="post in posts" :key="post.id">
+                    <img :src="`http://127.0.0.1:8000/storage/img/posts/${post.image}`" class="img-fluid"
+                        alt="post image" height="50%">
                     <div class="card-body">
-                        <h6 class="card-text ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor
-                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                            exercitation
-                            ullamco
-                        </h6>
+                        <h6 class="card-text "> {{ post.title }}</h6>
                         <div class="row">
                             <div class="col-md-4">
                                 <p class="ml-2 text-secondary mt-3">
                                     <font-awesome-icon :icon="['fas', 'clock']" />
-                                    Dec 6 2022
+                                    {{ new Date(post.created_at).toDateString() }}
                                 </p>
                             </div>
                             <div class="col-md-4">
@@ -31,12 +26,7 @@
                                 </p>
                             </div>
                         </div>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor
-                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                            exercitation
-                            ullamco
-                        </p>
+                        <p class="card-text">{{ post.description }}</p>
                     </div>
                 </div>
                 <div class="row border-bottom">
@@ -192,5 +182,41 @@
     </div>
 </template>
 <script>
-export default {}
+export default {
+    head: {
+        title: "Post",
+    },
+    data() {
+        return {
+            posts: [],
+            keyword: "",
+            currentPage: 1,
+            perPage: 5,
+        };
+    },
+    mounted() {
+        this.getAllPosts();
+    },
+    methods: {
+        async getAllPosts() {
+            await this.$axios
+                .$get("api/posts?search=" + this.keyword)
+                .then((res) => {
+                    console.log(res?.categories);
+                    this.posts = res;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
+        search() {
+            this.getAllPosts();
+        },
+    },
+    computed: {
+        rows() {
+            return this.posts.length;
+        },
+    },
+};
 </script>

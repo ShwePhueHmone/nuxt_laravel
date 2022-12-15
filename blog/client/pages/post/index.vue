@@ -37,13 +37,18 @@
           <button class="btn btn-sm btn-danger my-2" @click="deletePost(data.item.id)">
             <font-awesome-icon :icon="['fas', 'trash']" /> Delete
           </button>
+          <button class="btn btn-info">
+              <nuxt-link :to="`./post/${data.item.id}`" class="text-white">Details</nuxt-link>
+              <font-awesome-icon :icon="['fas', 'circle-info']" />
+            </button>
         </template>
       </b-table>
       <small v-if="rows == 0 && keyword != ''" class="text-danger text-center">
         No post here!
       </small>
       <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" :current-page="currentPage"
-        first-text="First" prev-text="Prev" next-text="Next" last-text="Last" v-if="rows > 5"></b-pagination>
+        first-text="First" prev-text="Prev" next-text="Next" last-text="Last" v-if="rows > 5">
+      </b-pagination>
     </div>
   </div>
 </template>
@@ -80,6 +85,7 @@ export default {
           tdClass: "semibolder",
         },
         { key: "description", label: "Description" },
+        { key: "created_at", label: "Date" },
         { key: "actions", label: "Actions", thStyle: { width: "20%" } },
       ],
       sortBy: "id",
