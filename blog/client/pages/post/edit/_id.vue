@@ -22,7 +22,7 @@
                             </div>
                             <div class="select-box">
                                 Select Category:
-                                <select v-model="post.categories" name="category[]" multiple class="form-select mt-2"
+                                <select v-model="post.categories" name="category[]" class="form-select mt-2"
                                     aria-label="Default select example">
                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                         {{ category.name }}

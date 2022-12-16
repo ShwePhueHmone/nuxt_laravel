@@ -19,8 +19,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::filter(request('search'))
+            ->latest('created_at')
             ->with('categories')
-            ->orderBy('id', 'DESC')->get();
+            ->get();
 
         return response()->json($posts);
     }
@@ -117,5 +118,18 @@ class PostController extends Controller
         $post->delete();
 
         return response()->json(['message' => 'Post has been deleted successfully'], 200);
+    }
+
+    public function relatedPosts($id)
+    {
+        $currentPost = Post::find($id);
+        if ($currentPost) {
+            $currentCategory = $currentPost->category->id;
+            return Post::where("id", "!=", $id)
+                ->where("category_id", $currentCategory)
+                ->inRandomOrder()
+                ->limit(4)
+                ->get();
+        }
     }
 }
