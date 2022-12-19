@@ -29,7 +29,7 @@
                 <div class="col-md-6">
                   <p class="ml-2 text-secondary">
                     <font-awesome-icon :icon="['fas', 'folder']" />
-                    <!-- {{ post.categories[0].name }} -->
+                    {{post.categories[0].name }}
                   </p>
                 </div>
               </div>
