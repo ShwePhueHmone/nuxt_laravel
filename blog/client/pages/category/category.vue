@@ -91,6 +91,10 @@ const Toast = Swal.mixin({
   timerProgressBar: true,
 });
 export default {
+  mounted(){   
+        // this.count = this.countCategory()
+    },
+
   data() {
     return {
       perPage: 5,
@@ -110,6 +114,7 @@ export default {
       Error: "",
       errors: null,
       keyword: "",
+      count: "",
     };
   },
   methods: {
@@ -174,9 +179,6 @@ export default {
       var modal = bootstrap.Modal.getInstance(modalEL)
       modal.hide();
     },
-    clear() {
-
-    },
     async destroy(category) {
       if (confirm("Are you sure you want to delete?"))
         await this.$axios
@@ -190,7 +192,13 @@ export default {
               title: "Deleted Successfully!",
             });
           });
-    }
+    },
+    // countCategory(){
+    //   this.$axios.get('category/count/' + this.categoryId)
+    //     .then((response)=>{
+    //       this.count = response.data
+    //     });
+    // },
   },
   async fetch() {
     this.categories = await fetch("http://127.0.0.1:8000/api/category").then((res) =>
