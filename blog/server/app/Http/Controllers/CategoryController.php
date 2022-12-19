@@ -102,4 +102,15 @@ class CategoryController extends Controller
             200
         );
     }
+
+    /**
+     * Count all Categories
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCategory()
+    {
+        $categories = Category::all()->count();
+        return $categories;
+    }
 }

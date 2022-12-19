@@ -115,11 +115,23 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
 
-        return response()->json(['message' => 'Post has been deleted successfully'], 200);
+        if (File::exists(storage_path('app/public/img/posts/') . $post->image)) {
+            File::delete(storage_path('app/public/img/posts/') . $post->image);
+        }
+
+        $post->categories()->sync([]);
+        $post->delete();
+        return response([
+            'message' => 'A Post deleted successfully!',
+        ]);
     }
 
+    /**
+     * Summary of relatedPosts
+     * @param mixed $posts_id
+     * @return mixed
+     */
     public function relatedPosts($id)
     {
         $currentPost = Post::find($id);
