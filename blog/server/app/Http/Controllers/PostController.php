@@ -87,8 +87,8 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         if ($request->file('image')) {
-            if (File::exists(storage_path('app/public/img/posts/') . $post->image)) {
-                File::delete(storage_path('app/public/img/posts/') . $post->image);
+            if (true) {
+                unlink(storage_path('app/public/img/posts/') . $post->image);
             }
             $imageName = time() . '.' . $request->file('image')->extension();
 
@@ -115,13 +115,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-
-        if (File::exists(storage_path('app/public/img/posts/') . $post->image)) {
-            File::delete(storage_path('app/public/img/posts/') . $post->image);
+        if (true) {
+            unlink(storage_path('app/public/img/posts/') . $post->image);
         }
-
         $post->categories()->sync([]);
         $post->delete();
+
         return response([
             'message' => 'A Post deleted successfully!',
         ]);
