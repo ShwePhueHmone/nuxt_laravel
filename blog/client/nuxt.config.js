@@ -49,7 +49,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: "laravel/sanctum",
-        url: "http://127.0.0.1:8000",
+        url: "http://localhost:8000",
         endpoints: {
           login: {
             url: "/login",

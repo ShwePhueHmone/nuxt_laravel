@@ -12,21 +12,39 @@
       <div class="col-md-6 mt-3">
         <form @submit.prevent="search()">
           <div class="input-group">
-            <input type="text" placeholder="search" class="form-control" v-model="keyword" />
+            <input
+              type="text"
+              placeholder="search"
+              class="form-control"
+              v-model="keyword"
+            />
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary mb-3 justify-content-end">
-                <font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+              </button>
             </div>
           </div>
         </form>
       </div>
     </div>
     <div class="row">
-      <b-table striped id="my-table" :items="posts" :per-page="perPage" :current-page="currentPage" :fields="fields"
-        :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" class="mb-5">
+      <b-table
+        striped
+        id="my-table"
+        :items="posts"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        class="mb-5"
+      >
         <template #cell(image)="data">
-          <img :src="`http://127.0.0.1:8000/storage/img/posts/${data.item.image}`" class="rounded img-fluid post-img"
-            alt="post image" />
+          <img
+            :src="`http://127.0.0.1:8000/storage/img/posts/${data.item.image}`"
+            class="rounded img-fluid post-img"
+            alt="post image"
+          />
         </template>
         <template #cell(actions)="data">
           <NuxtLink :to="`../post/edit/${data.item.id}`">
@@ -38,16 +56,27 @@
             <font-awesome-icon :icon="['fas', 'trash']" /> Delete
           </button>
           <button class="btn btn-info">
-              <nuxt-link :to="`./post/${data.item.id}`" class="text-white">Details</nuxt-link>
-              <font-awesome-icon :icon="['fas', 'circle-info']" />
-            </button>
+            <nuxt-link :to="`./post/${data.item.id}`" class="text-white"
+              >Details</nuxt-link
+            >
+            <font-awesome-icon :icon="['fas', 'circle-info']" />
+          </button>
         </template>
       </b-table>
       <small v-if="rows == 0 && keyword != ''" class="text-danger text-center">
         No post here!
       </small>
-      <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" :current-page="currentPage"
-        first-text="First" prev-text="Prev" next-text="Next" last-text="Last" v-if="rows > 5">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        :current-page="currentPage"
+        first-text="First"
+        prev-text="Prev"
+        next-text="Next"
+        last-text="Last"
+        v-if="rows > 5"
+      >
       </b-pagination>
     </div>
   </div>
@@ -100,7 +129,7 @@ export default {
   methods: {
     async getAllPosts() {
       await this.$axios
-        .$get("api/posts?search=" + this.keyword)
+        .$get("http://127.0.0.1:8000/api/posts?search=" + this.keyword)
         .then((res) => {
           console.log(res?.categories);
           this.posts = res;
@@ -112,7 +141,7 @@ export default {
     deletePost(id) {
       if (confirm("Are you sure to delete?")) {
         this.$axios
-          .$delete(`api/posts/${id}`)
+          .$delete(`/api/posts/${id}`)
           .then((res) => {
             this.posts = this.posts.filter((item) => {
               return item.id !== id;
@@ -140,5 +169,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../assets/css/main.css';
-</style>>
+@import "../../assets/css/main.css";
+</style>
+>

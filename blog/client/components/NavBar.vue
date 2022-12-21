@@ -1,7 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
-      <a href="#" class="navbar-brand">Logo</a>
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand">Logo</a>
+      </div>
       <button
         type="button"
         class="navbar-toggler"
@@ -39,6 +41,11 @@
               <NuxtLink class="nav-link" to="/" v-if="!$auth.loggedIn">Home</NuxtLink>
             </li>
             <li class="nav-item nav-link">
+              <NuxtLink class="nav-link" to="/test" v-if="!$auth.loggedIn"
+                >About</NuxtLink
+              >
+            </li>
+            <li class="nav-item nav-link">
               <NuxtLink class="nav-link" to="/category" v-if="!$auth.loggedIn"
                 >Category</NuxtLink
               >
@@ -51,13 +58,25 @@
                 >Register</NuxtLink
               >
             </li>
-            <li class="nav-item nav-link">
-              <NuxtLink class="nav-link" to="/login" v-if="!$auth.loggedIn"
-                >Login</NuxtLink
+            <li class="nav-item nav-link dropdown" v-if="$auth.loggedIn">
+              <a
+                class="nav-link dropdown-toggle text-uppercase"
+                href="#"
+                id="dropdown07XL"
+                data-bs-toggle="dropdown"
+                aria-expanded="true"
+                >{{ $auth.user.name }}</a
               >
-            </li>
-            <li class="nav-item nav-link" tabindex="-1">
-              <NuxtLink class="nav-link" to="/">Logout</NuxtLink>
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="dropdown07XL"
+                data-bs-popper="none"
+              >
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                  <span @click="logout" class="dropdown-item">Logout</span>
+                </li>
+              </ul>
             </li>
           </div>
         </div>

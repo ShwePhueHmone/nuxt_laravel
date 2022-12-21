@@ -6,17 +6,39 @@
         <form method="POST" @submit.prevent="store()" id="categoryForm">
           <div class="select-box">
             Select Category:
-            <select v-model="post.category" name="category[]" multiple class="form-select mt-2"
-              aria-label="Default select example">
-              <option v-for="category in categories" :key="category.id" :value="category.id">
+            <select
+              v-model="post.category"
+              name="category[]"
+              multiple
+              class="form-select mt-2"
+              aria-label="Default select example"
+            >
+              <option
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.id"
+              >
                 {{ category.name }}
               </option>
             </select>
           </div>
-          <img id="frame" alt="post image" width="100px" height="100px" class="mt-2" /><br>
+          <img
+            id="frame"
+            alt="post image"
+            width="100px"
+            height="100px"
+            class="mt-2"
+          /><br />
           Choose Image:
-          <b-form-file v-model="post.image" id="img" name="images" @change="preview" enctype="multipart/form-data"
-            class="mt-3" plain>
+          <b-form-file
+            v-model="post.image"
+            id="img"
+            name="images"
+            @change="preview"
+            enctype="multipart/form-data"
+            class="mt-3"
+            plain
+          >
           </b-form-file>
           <div class="text-danger" v-if="Error">*{{ Error.image[0] }}</div>
           <div class="form-group mt-3">
@@ -27,7 +49,7 @@
           <div class="form-group">
             <label> Description:</label>
             <textarea v-model="post.description" type="text" class="form-control">
-              </textarea>
+            </textarea>
           </div>
           <div class="text-danger mb-3" v-if="Error">*{{ Error.description[0] }}</div>
           <div class="text-danger mb-3"></div>
@@ -69,7 +91,7 @@ export default {
   methods: {
     async getCategories() {
       await this.$axios
-        .$get("api/category")
+        .$get("http://localhost:8000/api/category")
         .then((res) => {
           this.categories = res;
         })
@@ -88,7 +110,7 @@ export default {
       formData.append("title", this.post.title);
       formData.append("description", this.post.description);
       this.$axios
-        .post("api/posts/create", formData)
+        .post("http://127.0.0.1:8000/api/posts/create", formData)
         .then((response) => {
           this.post = "";
           this.$router.push({
@@ -103,7 +125,6 @@ export default {
       this.errors = null;
       let form = document.getElementById("categoryForm");
       form.reset();
-
     },
   },
 };

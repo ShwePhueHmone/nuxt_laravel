@@ -93,7 +93,6 @@
 <style scoped>
 @import "../assets/css/login.css";
 </style>
->
 <script>
 export default {
   auth: "guest",
@@ -107,7 +106,7 @@ export default {
     };
   },
   mounted() {
-    this.$axios.$get("/sanctum/csrf-cookie");
+    this.$axios.$get("http://127.0.0.1:8000/sanctum/csrf-cookie");
   },
   methods: {
     async login() {
@@ -115,7 +114,7 @@ export default {
       this.$nuxt.$loading.start();
       try {
         await this.$auth.loginWith("laravelSanctum", { data: this.form });
-        this.$router.push()({
+        await this.$router.push({
           path: "/",
         });
       } catch (error) {
